@@ -14,8 +14,8 @@ const addContact = async (req, res) => {
   if (error) {
     throw createError(400, "Missing required name field");
   }
-
-  const result = await service.add(req.body);
+  const { _id: id } = req.user;
+  const result = await service.add(...req.body, id);
   return res.json({
     status: "Success",
     code: 201,

@@ -1,11 +1,11 @@
 // @ PATCH /api/contacts/:id/favorite
 const { basedir } = global;
 
-const service = require(`${basedir}/services`);
+const service = require(`${basedir}/services/contacts`);
 
 const { schemas } = require(`${basedir}/models/contact`);
 
-const { createError } = require(`${basedir}/helpers`);
+const { createError } = require(`${basedir}/help`);
 
 const updateStatusContact = async (req, res) => {
   const { error } = schemas.favoriteSchema.validate(req.body);
@@ -15,7 +15,9 @@ const updateStatusContact = async (req, res) => {
   }
 
   const { id } = req.params;
-  const result = await service.updateStatus(id, req.body);
+  const result = await service.updateStatus(id, {
+    favorite: req.body.favorite,
+  });
 
   if (!result) {
     throw createError(404);
