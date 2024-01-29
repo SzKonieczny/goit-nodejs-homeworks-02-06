@@ -8,7 +8,7 @@ const { createError } = require(`${basedir}/help`);
 
 const getContactById = async (req, res) => {
   const { id } = req.params;
-  const result = await service.getById(id);
+  const result = await service.getById({ id });
 
   if (!result) {
     throw createError(404);

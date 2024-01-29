@@ -8,7 +8,7 @@ const { createError } = require(`${basedir}/help`);
 
 const removeContact = async (req, res) => {
   const { id } = req.params;
-  const result = await service.remove(id);
+  const result = await service.remove({ id });
 
   if (!result) {
     throw createError(404);
