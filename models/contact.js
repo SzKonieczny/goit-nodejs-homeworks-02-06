@@ -44,7 +44,7 @@ const addContactSchema = Joi.object({
   email: Joi.string()
     .email({ minDomainSegments: 2, tlds: { allow: ["com", "net"] } })
     .required(),
-  phone: Joi.string(),
+  phone: Joi.string().required(),
   favorite: Joi.boolean(),
 });
 
