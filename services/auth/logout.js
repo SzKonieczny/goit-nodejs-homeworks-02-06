@@ -2,20 +2,18 @@ const { basedir } = global;
 
 const { User } = require(`${basedir}/models/user`);
 
-const logout = async (id) => {
-  try {
-    const user = await User.findOne({ id });
+const { asyncWrapper } = require(`${basedir}/help`);
 
-    if (!user) {
-      return null;
-    }
+const logout = asyncWrapper(async ({ id }) => {
+  const user = await User.findOne({ id });
 
-    await User.findByIdAndUpdate(id, { token: null });
-
-    return user;
-  } catch (error) {
-    console.log(error.message);
+  if (!user) {
+    return null;
   }
-};
+
+  await User.findByIdAndUpdate(id, { token: null });
+
+  return user;
+});
 
 module.exports = logout;

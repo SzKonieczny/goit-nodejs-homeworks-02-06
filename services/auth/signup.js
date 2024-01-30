@@ -2,20 +2,22 @@ const { basedir } = global;
 
 const { User } = require(`${basedir}/models/user`);
 
-const signup = async (username, email, password) => {
-  try {
-    const user = await User.findOne({ email });
+const gravatar = require("gravatar");
 
-    if (user) {
-      return null;
-    }
+const { asyncWrapper } = require(`${basedir}/help`);
 
-    const newUser = new User({ username, email });
-    newUser.setPassword(password);
-    await newUser.save();
-  } catch (error) {
-    console.log(error.message);
+const signup = asyncWrapper(async ({ username, email, password }) => {
+  const user = await User.findOne({ email });
+
+  if (user) {
+    return null;
   }
-};
+
+  const avatarURL = gravatar.url(email);
+
+  const newUser = new User({ username, email, avatarURL });
+  newUser.setPassword(password);
+  await newUser.save();
+});
 
 module.exports = signup;

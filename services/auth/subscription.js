@@ -2,18 +2,16 @@ const { basedir } = global;
 
 const { User } = require(`${basedir}/models/user`);
 
-const patch = async ({ id, subscription }) => {
-  try {
-    const result = await User.findByIdAndUpdate(
-      id,
-      { subscription },
-      { new: true }
-    );
+const { asyncWrapper } = require(`${basedir}/help`);
 
-    return result;
-  } catch (error) {
-    console.log(error.message);
-  }
-};
+const patch = asyncWrapper(async ({ id, subscription }) => {
+  const result = await User.findByIdAndUpdate(
+    id,
+    { subscription },
+    { new: true }
+  );
+
+  return result;
+});
 
 module.exports = patch;
