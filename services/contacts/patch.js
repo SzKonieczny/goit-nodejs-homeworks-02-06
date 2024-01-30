@@ -2,18 +2,16 @@ const { basedir } = global;
 
 const { Contact } = require(`${basedir}/models/contact`);
 
-const updateStatus = async (id, body) => {
-  try {
-    const data = await Contact.findByIdAndUpdate(id, body, { new: true });
+const { asyncWrapper } = require(`${basedir}/help`);
 
-    if (!data) {
-      return null;
-    }
+const updateStatus = asyncWrapper(async ({ id, body }) => {
+  const data = await Contact.findByIdAndUpdate(id, body, { new: true });
 
-    return data;
-  } catch (error) {
-    console.log(error.message);
+  if (!data) {
+    return null;
   }
-};
+
+  return data;
+});
 
 module.exports = updateStatus;
