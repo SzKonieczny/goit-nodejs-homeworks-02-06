@@ -21,7 +21,9 @@ const signup = async (req, res) => {
     throw createError(409, `User with this ${email} in exists`);
   }
 
-  return res.json({
+  await service.sendEmail(email, result.verificationToken);
+
+  res.json({
     status: "Success",
     code: 201,
     message: "Registration success",
@@ -30,6 +32,7 @@ const signup = async (req, res) => {
         email: result.email,
         subscription: result.subscription,
         avatarURL: result.avatarURL,
+        verificationToken: result.verificationToken,
       },
     },
   });
